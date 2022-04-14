@@ -1,12 +1,8 @@
 // express router
 const app = require('express').Router()
 
-// io events
-// return value -> void
-const ioevents = require('./ioEvents') 
-
 // base route
-app.use('/', (_req, res) => {
+app.get('/', (_req, res) => {
     res.json({
         data: 'some Data for you  :) '
     })
@@ -14,7 +10,18 @@ app.use('/', (_req, res) => {
 
 // setting up io events
 module.exports = (io) => {
-    ioevents(io)
+    io.on('connection', (socket) => {
+        
+        // join a chat room
+        socket.on('chat', () => {
+            socket.emit('reply', "hi")
+        })
+
+        // disconnect event
+        socket.on("disconnecting", () => {
+            //
+        })
+    })
 
     return app
 }
