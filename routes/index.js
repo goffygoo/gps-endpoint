@@ -17,6 +17,10 @@ module.exports = (io) => {
             socket.emit('reply', "hi")
         })
 
+        socket.on('sendData', data => {
+            socket.broadcast.emit('getData', data)
+        })
+
         // disconnect event
         socket.on("disconnecting", () => {
             //
